@@ -1,0 +1,34 @@
+{
+  "name": "@vbs/mini-network-utils",
+  "version": "0.0.1",
+  "description": "",
+  "keywords": [
+    "vbs",
+    "vbs-plus",
+    "miniprogram",
+    "request",
+    "network-utils"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vbs-plus/mini-network-utils"
+  },
+  "license": "Apache-2.0",
+  "author": "lzheng.zj@gmail.com",
+  "files": [
+    "dist/",
+    "src/",
+    "es/"
+  ],
+  "main": "dist/index.js",
+  "module": "es/index.js",
+  "scripts": {
+    "build": "npm run build:es5 && npm run build:es6",
+    "build:es5": "tsc",
+    "build:es6": "tsc -m es6 --target es6 --outDir es",
+    "clean": "rimraf -rf es dist types",
+    "lint": "tslint -p . -c ../tslint.json",
+    "lint:fix": "tslint --fix -p . -c ../tslint.json",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  }
+}
