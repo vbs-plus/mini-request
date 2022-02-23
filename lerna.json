@@ -1,8 +1,13 @@
 {
-  "packages": ["life-cycle", "network-utils"],
+  "packages": [
+    "life-cycle",
+    "network-utils"
+  ],
   "command": {
     "bootstrap": {
-      "npmClientArgs": ["--no-package-lock"]
+      "npmClientArgs": [
+        "--no-package-lock"
+      ]
     },
     "version": {
       "allowBranch": "main"
@@ -11,7 +16,7 @@
       "message": "chore(release): publish %v"
     }
   },
-  "version": "0.0.1",
+  "version": "0.0.2-alpha.0",
   "changelog": {
     "cacheDir": ".changelog"
   }

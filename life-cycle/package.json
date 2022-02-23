@@ -1,6 +1,6 @@
 {
   "name": "@vbs/mini-network-life-cycle",
-  "version": "0.0.1",
+  "version": "0.0.2-alpha.0",
   "description": "miniprogram network lifecycle",
   "keywords": [
     "vbs",
