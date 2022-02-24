@@ -8,7 +8,7 @@ import {
   WxOptions,
   WxTask
 } from './config';
-import { ensureOnline } from './ensure-online';
+// import { ensureOnline } from './ensure-online';
 import { Listeners } from './listeners';
 
 /**
@@ -216,7 +216,7 @@ export abstract class LifeCycle<
           task.onProgressUpdate(options.onProgressUpdate); // 进度回调
         }
         if (cancelToken) {
-          cancelToken.promise.then((reason: string) => {
+          cancelToken.promise.then((reason) => {
             task.abort();
             this._onAbort(reason, options);
           },                       reject);
@@ -225,7 +225,8 @@ export abstract class LifeCycle<
       if (options.disableOnline) {
         run();
       } else {
-        ensureOnline(run, cancelToken);
+        // TODO
+        // ensureOnline(run, cancelToken);
       }
     });
   }

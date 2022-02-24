@@ -1,4 +1,4 @@
-import builder from './builder';
+import Builder from './builder';
 
 export { IBuilderParamsType, IBuilderGeneralCallbackResult } from './builder';
 
