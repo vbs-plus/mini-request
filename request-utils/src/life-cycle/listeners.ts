@@ -1,4 +1,4 @@
-import { IBuilderGeneralCallbackResult } from "../builder";
+import { IBuilderGeneralCallbackResult } from '../builder';
 /**
  * 监听事件列表
  */

@@ -1,6 +1,6 @@
-import { Omit } from "../configuration";
-import CancelToken from "../cancel-token";
-import { IBuilderGeneralCallbackResult, IBuilderParamsType } from "../builder";
+import { IBuilderGeneralCallbackResult, IBuilderParamsType } from '../builder';
+import cancelToken from '../cancel-token';
+import { Omit } from '../configuration';
 
 type KeyBasicValuePair = Record<
   string,
@@ -11,9 +11,9 @@ type PromiseOrValue<T> = T | PromiseLike<T>;
 export interface WxTask {
   abort(): void;
   /** HTTP Response Header 事件的回调函数 */
-  onHeadersReceived(callback: ILCExtraConfiguration["onHeadersReceived"]): void;
+  onHeadersReceived(callback: ILCExtraConfiguration['onHeadersReceived']): void;
   /** 下载进度变化事件的回调函数 */
-  onProgressUpdate?(callback: ILCExtraConfiguration["onProgressUpdate"]): void;
+  onProgressUpdate?(callback: ILCExtraConfiguration['onProgressUpdate']): void;
 }
 
 export interface WxOptions {
@@ -30,7 +30,7 @@ export interface WxOptions {
 }
 
 export type ILCSuccessParam<T extends WxOptions> = Parameters<
-  NonNullable<T["success"]>
+  NonNullable<T['success']>
 >[0];
 /**
  * 所有网络请求的集成类型,可全局配置
@@ -108,7 +108,7 @@ export interface ILCBaseConfiguration<
    */
   transformSend(
     options: TFullOptions
-  ): PromiseOrValue<Omit<TWxOptions, "complete" | "success" | "fail">>;
+  ): PromiseOrValue<Omit<TWxOptions, 'complete' | 'success' | 'fail'>>;
 
   /**
    * 返回数据修改，返回值作为then的输入, throw exception 抛给catch
@@ -166,7 +166,7 @@ export function mergeConfig<
     // 合并headers
     (config as any as { headers: object }).headers = {
       ...defaults.headers,
-      ...customize.headers,
+      ...customize.headers
     };
   }
   return config;

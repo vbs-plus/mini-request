@@ -29,7 +29,7 @@ export default class CancelToken {
    * @param executor - callback
    */
   private constructor(
-    executor: (cancel: ICancelTokenSource["cancel"]) => void
+    executor: (cancel: ICancelTokenSource['cancel']) => void
   ) {
     let resolve: CancelResolver;
     // tslint:disable-next-line:promise-must-complete
@@ -39,7 +39,7 @@ export default class CancelToken {
     executor((reason?: string) => {
       if (this.reason === undefined) {
         // 防止重复执行
-        this.reason = reason === undefined ? "abort" : reason;
+        this.reason = reason === undefined ? 'abort' : reason;
         resolve({ errMsg: this.reason, cancel: true });
       }
     });
@@ -50,7 +50,7 @@ export default class CancelToken {
    * @returns 生成一个CancelTokenSource
    */
   public static source(): ICancelTokenSource {
-    let cancel: ICancelTokenSource["cancel"];
+    let cancel: ICancelTokenSource['cancel'];
     const token = new CancelToken((c) => {
       cancel = c;
     });
@@ -73,7 +73,7 @@ export default class CancelToken {
    */
   public throwIfRequested(): void | never {
     if (this.reason !== undefined) {
-      throw typeof this.reason === "string"
+      throw typeof this.reason === 'string'
         ? { errMsg: this.reason, cancel: true, source: CancelToken.name }
         : this.reason;
     }

@@ -1,15 +1,15 @@
-import { Omit } from "../configuration";
-import { IBuilderGeneralCallbackResult } from "../builder";
+import { IBuilderGeneralCallbackResult } from '../builder';
+import { Omit } from '../configuration';
 import {
   ILCBaseConfiguration,
   ILCExtraConfiguration,
-  mergeConfig,
   ILCSuccessParam,
+  mergeConfig,
   WxOptions,
-  WxTask,
-} from "./config";
-import { ensureOnline } from "./ensure-online";
-import { Listeners } from "./listeners";
+  WxTask
+} from './config';
+import { ensureOnline } from './ensure-online';
+import { Listeners } from './listeners';
 
 /**
  * 在结果中主人timeout 标记
@@ -17,7 +17,7 @@ import { Listeners } from "./listeners";
  */
 function timeoutMsg(res: IBuilderGeneralCallbackResult, time?: number) {
   res.errMsg = res.errMsg
-    ? res.errMsg.replace(":fail abort", `:fail timeout ${time}`)
+    ? res.errMsg.replace(':fail abort', `:fail timeout ${time}`)
     : `network:fail timeout ${time}`;
   res.timeout = true;
   return res;
@@ -99,7 +99,7 @@ export abstract class LifeCycle<
     return this._onSend(options).then((param) => {
       // 记录发送时间戳
       if (options.timestamp) {
-        if (typeof options.timestamp === "object") {
+        if (typeof options.timestamp === 'object') {
           // 记录于传入的参数中
           options.timestamp.send = Date.now();
         } else {
@@ -116,7 +116,7 @@ export abstract class LifeCycle<
    */
   private _onSend(
     options: TFullOptions
-  ): Promise<Omit<TWxOptions, "complete" | "success" | "fail">> {
+  ): Promise<Omit<TWxOptions, 'complete' | 'success' | 'fail'>> {
     this.Listeners.onSend.forEach((f) => {
       f(options);
     });
@@ -158,7 +158,7 @@ export abstract class LifeCycle<
         if (cancelToken && cancelToken.isCancelled()) {
           // 用户主动取消,直接结束不再重试
           res.cancel = true;
-        } else if (typeof options.retry === "function") {
+        } else if (typeof options.retry === 'function') {
           // 自定义retry 函数
           Promise.resolve()
             .then(() => (options.retry! as Function)(data, res))
@@ -207,7 +207,7 @@ export abstract class LifeCycle<
           timeoutHandle = setTimeout(() => {
             timeoutHandle = 0;
             task.abort();
-          }, options.timeout!);
+          },                         options.timeout!);
         }
         if (options.onHeadersReceived) {
           task.onHeadersReceived(options.onHeadersReceived); // 响应头回调
@@ -219,7 +219,7 @@ export abstract class LifeCycle<
           cancelToken.promise.then((reason) => {
             task.abort();
             this._onAbort(reason, options);
-          }, reject);
+          },                       reject);
         }
       };
       if (options.disableOnline) {
@@ -267,13 +267,13 @@ export abstract class LifeCycle<
   ): void {
     if (options.timestamp) {
       //记录时间戳
-      if (typeof options.timestamp === "object") {
+      if (typeof options.timestamp === 'object') {
         options.timestamp.response = Date.now();
         res.time = options.timestamp;
       } else {
         res.time = {
           send: (options as any).__sendTime as number,
-          response: Date.now(),
+          response: Date.now()
         };
       }
     }

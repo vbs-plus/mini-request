@@ -1,4 +1,4 @@
-import CancelToken from "../cancel-token";
+import cancelToken from '../cancel-token';
 // tslint:disable: no-use-before-declare
 
 /**
@@ -32,9 +32,9 @@ wx.onNetworkStatusChange((res) => {
 });
 wx.getNetworkType({
   success(res) {
-    isConnected = res.networkType !== "none";
+    isConnected = res.networkType !== 'none';
     checkCallbacks();
-  },
+  }
 });
 
 /**
@@ -77,7 +77,7 @@ declare namespace wx {
      * - 'unknown': Android 下不常见的网络类型;
      * - 'none': 无网络;
      */
-    networkType: "wifi" | "2g" | "3g" | "4g" | "unknown" | "none";
+    networkType: 'wifi' | '2g' | '3g' | '4g' | 'unknown' | 'none';
   }
 
   function getNetworkType(option?: {

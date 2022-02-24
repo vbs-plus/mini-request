@@ -1,7 +1,7 @@
 /// <reference lib="es5"/>
 /// <reference lib="es2015.core"/>
 // tslint:disable-next-line:no-import-side-effect
-import "../_base/promise.finally";
+import '../_base/promise.finally';
 interface ParamObject {
   [key: string]: string | number | boolean | null | undefined;
   [key: number]: string | number | boolean | null | undefined;
@@ -202,16 +202,16 @@ export default class Builder {
       Object.keys(params).forEach((key) => {
         // tslint:disable-next-line:no-parameter-reassignment prefer-type-cast
         url = url.replace(
-          new RegExp(`{${key}}`, "g"),
+          new RegExp(`{${key}}`, 'g'),
           (params as ParamObject)[key] as string
         );
       });
     }
     // tslint:disable-next-line:no-http-string
-    if (url && (url.startsWith("https://") || url.startsWith("http://"))) {
+    if (url && (url.startsWith('https://') || url.startsWith('http://'))) {
       return url;
     } else {
-      return (baseUrl || "") + url;
+      return (baseUrl || '') + url;
     }
   }
 
@@ -226,7 +226,7 @@ export default class Builder {
     options: { [key: string]: any },
     extendKeys: (keyof T)[]
   ): T {
-    (["expire", ...extendKeys] as (keyof typeof options)[]).forEach((v) => {
+    (['expire', ...extendKeys] as (keyof typeof options)[]).forEach((v) => {
       if (options[v] !== undefined) {
         // tslint:disable-next-line: no-unsafe-any
         data[v as keyof T] = options[v];

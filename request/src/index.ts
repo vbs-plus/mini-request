@@ -1,7 +1,7 @@
-import { Builder } from "@vbs/mini-request-utils";
+import { Builder } from '@vbs/mini-request-utils';
 
 export const ping = () => {
-  return "success";
+  return 'success';
 };
 
 export const catchBuilder = () => {
