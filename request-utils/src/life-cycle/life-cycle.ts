@@ -4,7 +4,7 @@ import {
   ILCBaseConfiguration,
   ILCExtraConfiguration,
   mergeConfig,
-  SuccessParam,
+  ILCSuccessParam,
   WxOptions,
   WxTask,
 } from "./config";
@@ -54,7 +54,7 @@ export abstract class LifeCycle<
    */
   // tslint:disable-next-line:variable-name
   public readonly Listeners: Readonly<
-    Listeners<TFullOptions, SuccessParam<TWxOptions>>
+    Listeners<TFullOptions, ILCSuccessParam<TWxOptions>>
   >;
 
   /**
@@ -73,7 +73,7 @@ export abstract class LifeCycle<
     operator: (option: TWxOptions) => TWxTask,
     config: TInitConfig,
     listeners: Readonly<
-      Listeners<TFullOptions, SuccessParam<TWxOptions>>
+      Listeners<TFullOptions, ILCSuccessParam<TWxOptions>>
     > = new Listeners()
   ) {
     this.handle = operator;
@@ -91,7 +91,7 @@ export abstract class LifeCycle<
    * 处理请求
    * @param options - 请求参数,不包括默认参数
    */
-  protected process<T = SuccessParam<TWxOptions>>(
+  protected process<T = ILCSuccessParam<TWxOptions>>(
     options: TFullOptions
   ): Promise<T> {
     // tslint:disable-next-line: no-parameter-reassignment
@@ -145,7 +145,7 @@ export abstract class LifeCycle<
       if (cancelToken) {
         cancelToken.throwIfRequested();
       }
-      data.success = (res: SuccessParam<TWxOptions>) => {
+      data.success = (res: ILCSuccessParam<TWxOptions>) => {
         completed = true;
         this._response<T>(res, options).then(resolve, reject);
       };
@@ -236,7 +236,7 @@ export abstract class LifeCycle<
    * @param options - 全部配置
    */
   private _response<T>(
-    res: SuccessParam<TWxOptions>,
+    res: ILCSuccessParam<TWxOptions>,
     options: TFullOptions
   ): Promise<T> {
     this.Listeners.onResponse.forEach((f) => {
@@ -300,7 +300,7 @@ export abstract class LifeCycle<
    * @param options - 全部配置
    */
   private _onComplete(
-    res: Partial<SuccessParam<TWxOptions>> &
+    res: Partial<ILCSuccessParam<TWxOptions>> &
       IBuilderGeneralCallbackResult &
       ExtraCompleteRes,
     options: TFullOptions

@@ -1,7 +1,7 @@
 {
   "packages": [
-    "life-cycle",
-    "network-utils"
+    "request",
+    "request-utils"
   ],
   "command": {
     "bootstrap": {
@@ -16,7 +16,7 @@
       "message": "chore(release): publish %v"
     }
   },
-  "version": "0.0.2-alpha.0",
+  "version": "0.0.0",
   "changelog": {
     "cacheDir": ".changelog"
   }
