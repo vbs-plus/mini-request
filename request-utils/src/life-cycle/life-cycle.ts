@@ -216,7 +216,7 @@ export abstract class LifeCycle<
           task.onProgressUpdate(options.onProgressUpdate); // 进度回调
         }
         if (cancelToken) {
-          cancelToken.promise.then((reason) => {
+          cancelToken.promise.then((reason: string) => {
             task.abort();
             this._onAbort(reason, options);
           },                       reject);

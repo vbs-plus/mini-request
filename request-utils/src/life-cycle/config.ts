@@ -1,5 +1,5 @@
 import { IBuilderGeneralCallbackResult, IBuilderParamsType } from '../builder';
-import cancelToken from '../cancel-token';
+import CancelToken from '../cancel-token';
 import { Omit } from '../configuration';
 
 type KeyBasicValuePair = Record<

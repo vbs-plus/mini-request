@@ -1,4 +1,4 @@
-import cancelToken from '../cancel-token';
+import CancelToken from '../cancel-token';
 // tslint:disable: no-use-before-declare
 
 /**
