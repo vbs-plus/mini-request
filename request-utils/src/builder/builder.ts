@@ -1,43 +1,10 @@
 /// <reference lib="es5"/>
 /// <reference lib="es2015.core"/>
 // tslint:disable-next-line:no-import-side-effect
-import "./promise.finally";
-export type Omit<T, K> = Pick<T, Exclude<keyof T, K>>;
+import "../_base/promise.finally";
 interface ParamObject {
   [key: string]: string | number | boolean | null | undefined;
   [key: number]: string | number | boolean | null | undefined;
-}
-
-/**
- * 参数类型
- */
-export type ParamsType = ParamObject | (string | number | boolean)[];
-
-export interface GeneralCallbackResult {
-  /**
-   * 回调消息
-   */
-  errMsg: string;
-
-  /**
-   * 网络请求过程中一些调试信息
-   */
-  profile?: wechatProfile | alipayProfile;
-
-  /**
-   * 是否触发了自定义超时
-   */
-  timeout?: boolean;
-
-  /**
-   * 是否是主动取消
-   */
-  cancel?: boolean;
-
-  /**
-   * 触发来源
-   */
-  source?: string;
 }
 
 /**
@@ -45,7 +12,7 @@ export interface GeneralCallbackResult {
  * wechat: https://developers.weixin.qq.com/miniprogram/dev/framework/performance/network.html
  * alipay: none
  */
-export interface wechatProfile {
+interface ProfileWechat {
   /**
    * 	第一个 HTTP 重定向发生时的时间。有跳转且是同域名内的重定向才算，否则值为 0
    */
@@ -148,7 +115,7 @@ export interface wechatProfile {
   receivedBytedCount: number;
 }
 
-export interface alipayProfile {
+interface ProfileAlipay {
   /**
    * 	SSL建立连接的时长,如果不是安全连接,则值为 0
    */
@@ -180,52 +147,92 @@ export interface alipayProfile {
 }
 
 /**
- * 构建url参数
- * /users/{id} ==> /users/123
- * @param url - url 相对地址或者绝对地址
- * @param params - Obejct 键值对 替换的参数列表
- * @param baseUrl - 根目录，当url以https://或者http://开头忽略此参数
- * @returns 完整参数URL
+ * 参数类型
  */
-export function buildParams(
-  url: string,
-  params?: ParamsType,
-  baseUrl?: string
-): string {
-  if (url && params) {
-    Object.keys(params).forEach((key) => {
-      // tslint:disable-next-line:no-parameter-reassignment prefer-type-cast
-      url = url.replace(
-        new RegExp(`{${key}}`, "g"),
-        (params as ParamObject)[key] as string
-      );
-    });
-  }
-  // tslint:disable-next-line:no-http-string
-  if (url && (url.startsWith("https://") || url.startsWith("http://"))) {
-    return url;
-  } else {
-    return (baseUrl || "") + url;
-  }
+export type IBuilderParamsType = ParamObject | (string | number | boolean)[];
+
+/**
+ * 网络请求回调结果
+ */
+export interface IBuilderGeneralCallbackResult {
+  /**
+   * 回调消息
+   */
+  errMsg: string;
+
+  /**
+   * 网络请求过程中一些调试信息
+   */
+  profile?: ProfileWechat | ProfileAlipay;
+
+  /**
+   * 是否触发了自定义超时
+   */
+  timeout?: boolean;
+
+  /**
+   * 是否是主动取消
+   */
+  cancel?: boolean;
+
+  /**
+   * 触发来源
+   */
+  source?: string;
 }
 
 /**
- * 合并公共配置
- * @param data - new configuration for request operation
- * @param options - default global configuration
- * @param extendKeys - key need copy to data
+ * 网络请求Builder工具类
  */
-export function getCommonOptions<T extends { [key: string]: any }>(
-  data: T,
-  options: { [key: string]: any },
-  extendKeys: (keyof T)[]
-): T {
-  (["expire", ...extendKeys] as (keyof typeof options)[]).forEach((v) => {
-    if (options[v] !== undefined) {
-      // tslint:disable-next-line: no-unsafe-any
-      data[v as keyof T] = options[v];
+export default class Builder {
+  /**
+   * 构建url参数
+   * /users/{id} ==> /users/123
+   * @param url - url 相对地址或者绝对地址
+   * @param params - Obejct 键值对 替换的参数列表
+   * @param baseUrl - 根目录，当url以https://或者http://开头忽略此参数
+   * @returns 完整参数URL
+   */
+  public buildParams(
+    url: string,
+    params?: IBuilderParamsType,
+    baseUrl?: string
+  ): string {
+    if (url && params) {
+      Object.keys(params).forEach((key) => {
+        // tslint:disable-next-line:no-parameter-reassignment prefer-type-cast
+        url = url.replace(
+          new RegExp(`{${key}}`, "g"),
+          (params as ParamObject)[key] as string
+        );
+      });
     }
-  });
+    // tslint:disable-next-line:no-http-string
+    if (url && (url.startsWith("https://") || url.startsWith("http://"))) {
+      return url;
+    } else {
+      return (baseUrl || "") + url;
+    }
+  }
 
-  return data;
+  /**
+   * 合并公共配置
+   * @param data - new configuration for request operation
+   * @param options - default global configuration
+   * @param extendKeys - key need copy to data
+   */
+  public getCommonOptions<T extends { [key: string]: any }>(
+    data: T,
+    options: { [key: string]: any },
+    extendKeys: (keyof T)[]
+  ): T {
+    (["expire", ...extendKeys] as (keyof typeof options)[]).forEach((v) => {
+      if (options[v] !== undefined) {
+        // tslint:disable-next-line: no-unsafe-any
+        data[v as keyof T] = options[v];
+      }
+    });
+
+    return data;
+  }
 }

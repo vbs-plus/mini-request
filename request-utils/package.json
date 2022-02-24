@@ -1,17 +1,17 @@
 {
-  "name": "@vbs/mini-network-utils",
+  "name": "@vbs/mini-request-utils",
   "version": "0.0.2-alpha.0",
   "description": "",
   "keywords": [
     "vbs",
     "vbs-plus",
     "miniprogram",
-    "request",
-    "network-utils"
+    "mini-request",
+    "mini-request-utils"
   ],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/vbs-plus/mini-network-utils"
+    "url": "git+https://github.com/vbs-plus/mini-request"
   },
   "license": "Apache-2.0",
   "author": "lzheng.zj@gmail.com",
