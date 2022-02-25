@@ -8,7 +8,7 @@ import {
   WxOptions,
   WxTask
 } from './config';
-// import { ensureOnline } from './ensure-online';
+import { ensureOnline } from './ensure-online';
 import { Listeners } from './listeners';
 
 /**
@@ -226,7 +226,7 @@ export abstract class LifeCycle<
         run();
       } else {
         // TODO
-        // ensureOnline(run, cancelToken);
+        ensureOnline(run, cancelToken);
       }
     });
   }

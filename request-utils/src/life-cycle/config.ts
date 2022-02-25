@@ -1,5 +1,5 @@
 import { IBuilderGeneralCallbackResult, IBuilderParamsType } from '../builder';
-import CancelToken from '../cancel-token';
+import cancelToken from '../cancel-token';
 import { Omit } from '../configuration';
 
 type KeyBasicValuePair = Record<
@@ -133,7 +133,7 @@ export interface ILCExtraConfiguration {
    * 取消操作的 CancelToken
    * `CancelToken.source()`可生成tokenSource
    */
-  cancelToken?: CancelToken;
+  cancelToken?: cancelToken;
 
   /**
    * 自定义超时时间,单位`ms`

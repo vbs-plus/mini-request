@@ -1,5 +1,5 @@
-import Builder from './builder';
+import builder from './builder';
 
 export { IBuilderParamsType, IBuilderGeneralCallbackResult } from './builder';
 
-export default Builder;
+export default builder;
