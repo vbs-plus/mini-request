@@ -1,4 +1,4 @@
-import { IBuilderGeneralCallbackResult, IBuilderParamsType } from '../builder';
+import { IBuilderParamsType, my, wx } from '../builder';
 import cancelToken from '../cancel-token';
 import { Omit } from '../configuration';
 
@@ -83,7 +83,7 @@ export interface ILCBaseConfiguration<
     | ((
         this: TFullOptions,
         data: TWxOptions,
-        reason?: IBuilderGeneralCallbackResult
+        reason?: wx.HttpResponse | my.HttpResponse
       ) => PromiseOrValue<TWxOptions>);
 
   /**

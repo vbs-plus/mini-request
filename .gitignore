@@ -68,3 +68,5 @@ typings/
 .changelog
 
 TODO.md
+
+**/*copy.ts

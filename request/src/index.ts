@@ -1,12 +1,6 @@
 import { Http } from './http';
 
-export {
-  Http,
-  RequestConfig,
-  RequestInit,
-  RequestOption,
-  HttpResponse
-} from './http';
+export { Http, RequestConfig, RequestInit, RequestOption } from './http';
 export {
   RequestParams,
   transformRequestResponseOkData,

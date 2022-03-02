@@ -1,13 +1,12 @@
 import {
-  IBuilderGeneralCallbackResult,
   IBuilderParamsType,
   ILCBaseConfiguration,
   ILCExtraConfiguration,
   ILCSuccessParam,
-  LifeCycle,
-} from "@vbs/mini-request-utils";
-import { transformRequestSendDefault } from "./transform";
-import { wx, my } from "./client";
+  LifeCycle
+} from '@vbs/mini-request-utils';
+import { my as __my__, wx as __wx__ } from './client';
+import { transformRequestSendDefault } from './transform';
 
 /**
  * 小程序HTTP 请求生命周期封装
@@ -16,8 +15,8 @@ import { wx, my } from "./client";
  * @template TExt 扩展参数属性类型
  */
 export class Http<TExt extends {} = {}> extends LifeCycle<
-  TExt & wx.RequestOption,
-  wx.RequestTask,
+  TExt & __wx__.RequestOption,
+  __wx__.RequestTask,
   RequestInit<TExt>,
   FullRequestOption<TExt>
 > {
@@ -29,12 +28,12 @@ export class Http<TExt extends {} = {}> extends LifeCycle<
    */
   public constructor(
     config?: RequestInit<TExt>,
-    request?: (o: TExt & wx.RequestOption) => wx.RequestTask,
-    listeners?: Http<TExt>["Listeners"]
+    request?: (o: TExt & __wx__.RequestOption) => __wx__.RequestTask,
+    listeners?: Http<TExt>['Listeners']
   ) {
     super(
       // tslint:disable-next-line: no-use-before-declare
-      request || wx.request,
+      request || __wx__.request,
       // tslint:disable-next-line: no-object-literal-type-assertion
       config ||
         ({ transformSend: transformRequestSendDefault } as RequestInit<TExt>),
@@ -50,7 +49,7 @@ export class Http<TExt extends {} = {}> extends LifeCycle<
    * @template TParams 路径参数(如`/items/{id}`或者`/{0}/{1}`)的格式类型,默认 任意object或数组
    */
   public request<
-    TReturn = ILCSuccessParam<wx.RequestOption>,
+    TReturn = ILCSuccessParam<__wx__.RequestOption>,
     TData extends BaseData = BaseData,
     TParams = IBuilderParamsType
   >(options: RequestOption<TData, TParams, TExt, TReturn>): Promise<TReturn>;
@@ -65,24 +64,24 @@ export class Http<TExt extends {} = {}> extends LifeCycle<
    * @template TParams 路径参数(如`/items/{id}`或者`/{0}/{1}`)的格式类型,默认 任意object或数组
    */
   public request<
-    TReturn = ILCSuccessParam<wx.RequestOption>,
+    TReturn = ILCSuccessParam<__wx__.RequestOption>,
     TData extends BaseData = BaseData,
     TParams = IBuilderParamsType
   >(
-    method: NonNullable<wx.RequestOption["method"]>,
+    method: NonNullable<__wx__.RequestOption['method']>,
     action: string,
     data?: TData,
     config?: RequestConfig<TParams, TExt, TReturn>
   ): Promise<TReturn>;
   public request<
-    TReturn = ILCSuccessParam<wx.RequestOption>
+    TReturn = ILCSuccessParam<__wx__.RequestOption>
   >(): Promise<TReturn> {
     const argNum = arguments.length;
     // tslint:disable-next-line: no-unsafe-any
     const options: FullRequestOption<TExt> =
       argNum === 1 ? arguments[0] : arguments[3] || {};
     if (argNum > 1) {
-      options.method = arguments[0] as FullRequestOption["method"];
+      options.method = arguments[0] as FullRequestOption['method'];
       options.url = arguments[1] as string;
       if (argNum > 2) {
         // tslint:disable-next-line: no-unsafe-any
@@ -103,7 +102,7 @@ export class Http<TExt extends {} = {}> extends LifeCycle<
    */
   // tslint:disable-next-line: no-reserved-keywords
   public get<
-    TReturn = ILCSuccessParam<wx.RequestOption>,
+    TReturn = ILCSuccessParam<__wx__.RequestOption>,
     TData extends BaseData = BaseData,
     TParams = IBuilderParamsType
   >(
@@ -111,7 +110,7 @@ export class Http<TExt extends {} = {}> extends LifeCycle<
     data?: TData,
     config?: RequestConfig<TParams, TExt, TReturn>
   ): Promise<TReturn> {
-    return this.request<TReturn>("GET", action, data, config);
+    return this.request<TReturn>('GET', action, data, config);
   }
 
   /**
@@ -124,7 +123,7 @@ export class Http<TExt extends {} = {}> extends LifeCycle<
    * @template TParams 路径参数(如`/items/{id}`或者`/{0}/{1}`)的格式类型,默认 任意object或数组
    */
   public post<
-    TReturn = ILCSuccessParam<wx.RequestOption>,
+    TReturn = ILCSuccessParam<__wx__.RequestOption>,
     TData extends BaseData = BaseData,
     TParams = IBuilderParamsType
   >(
@@ -132,7 +131,7 @@ export class Http<TExt extends {} = {}> extends LifeCycle<
     data?: TData,
     config?: RequestConfig<TParams, TExt, TReturn>
   ): Promise<TReturn> {
-    return this.request<TReturn>("POST", action, data, config);
+    return this.request<TReturn>('POST', action, data, config);
   }
 
   /**
@@ -145,7 +144,7 @@ export class Http<TExt extends {} = {}> extends LifeCycle<
    * @template TParams 路径参数(如`/items/{id}`或者`/{0}/{1}`)的格式类型,默认 任意object或数组
    */
   public put<
-    TReturn = ILCSuccessParam<wx.RequestOption>,
+    TReturn = ILCSuccessParam<__wx__.RequestOption>,
     TData extends BaseData = BaseData,
     TParams = IBuilderParamsType
   >(
@@ -153,7 +152,7 @@ export class Http<TExt extends {} = {}> extends LifeCycle<
     data?: TData,
     config?: RequestConfig<TParams, TExt, TReturn>
   ): Promise<TReturn> {
-    return this.request<TReturn>("PUT", action, data, config);
+    return this.request<TReturn>('PUT', action, data, config);
   }
 
   /**
@@ -167,7 +166,7 @@ export class Http<TExt extends {} = {}> extends LifeCycle<
    */
   // tslint:disable-next-line: no-reserved-keywords
   public delete<
-    TReturn = ILCSuccessParam<wx.RequestOption>,
+    TReturn = ILCSuccessParam<__wx__.RequestOption>,
     TData extends BaseData = BaseData,
     TParams = IBuilderParamsType
   >(
@@ -175,7 +174,7 @@ export class Http<TExt extends {} = {}> extends LifeCycle<
     data?: TData,
     config?: RequestConfig<TParams, TExt, TReturn>
   ): Promise<TReturn> {
-    return this.request<TReturn>("DELETE", action, data, config);
+    return this.request<TReturn>('DELETE', action, data, config);
   }
 
   /**
@@ -188,7 +187,7 @@ export class Http<TExt extends {} = {}> extends LifeCycle<
    * @template TParams 路径参数(如`/items/{id}`或者`/{0}/{1}`)的格式类型,默认 任意object或数组
    */
   public head<
-    TReturn = ILCSuccessParam<wx.RequestOption>,
+    TReturn = ILCSuccessParam<__wx__.RequestOption>,
     TData extends BaseData = BaseData,
     TParams = IBuilderParamsType
   >(
@@ -196,7 +195,7 @@ export class Http<TExt extends {} = {}> extends LifeCycle<
     data?: TData,
     config?: RequestConfig<TParams, TExt, TReturn>
   ): Promise<TReturn> {
-    return this.request<TReturn>("HEAD", action, data, config);
+    return this.request<TReturn>('HEAD', action, data, config);
   }
 
   /**
@@ -211,7 +210,7 @@ export class Http<TExt extends {} = {}> extends LifeCycle<
    * @template TParams 路径参数(如`/items/{id}`或者`/{0}/{1}`)的格式类型,默认 任意object或数组
    */
   public patch<
-    TReturn = ILCSuccessParam<wx.RequestOption>,
+    TReturn = ILCSuccessParam<__wx__.RequestOption>,
     TData extends BaseData = BaseData,
     TParams = IBuilderParamsType
   >(
@@ -222,14 +221,14 @@ export class Http<TExt extends {} = {}> extends LifeCycle<
     if (!config) {
       // tslint:disable-next-line: no-parameter-reassignment
       config = {
-        headers: { "X-HTTP-Method-Override": "PATCH" },
+        headers: { 'X-HTTP-Method-Override': 'PATCH' }
       } as unknown as RequestConfig<TParams, TExt, TReturn>;
     } else if (!config.headers) {
-      config.headers = { "X-HTTP-Method-Override": "PATCH" };
+      config.headers = { 'X-HTTP-Method-Override': 'PATCH' };
     } else {
-      config.headers["X-HTTP-Method-Override"] = "PATCH";
+      config.headers['X-HTTP-Method-Override'] = 'PATCH';
     }
-    return this.request<TReturn>("POST", action, data, config);
+    return this.request<TReturn>('POST', action, data, config);
   }
 }
 
@@ -244,13 +243,13 @@ type BaseData = string | object | ArrayBuffer | undefined;
 export interface RequestInit<T extends {} = {}, TReturn = any>
   extends ILCBaseConfiguration<
     FullRequestOption<T>,
-    T & wx.RequestOption,
+    T & __wx__.RequestOption,
     TReturn
   > {
   /**
    * response data type
    */
-  responseType?: "json" | "text" | "arraybuffer";
+  responseType?: 'json' | 'text' | 'arraybuffer';
 }
 
 /**
@@ -261,7 +260,7 @@ export interface RequestInit<T extends {} = {}, TReturn = any>
 export type RequestConfig<
   TParams = IBuilderParamsType,
   TExt extends {} = {},
-  TReturn = HttpResponse
+  TReturn = __wx__.HttpResponse | __my__.HttpResponse
 > = Partial<TExt> &
   Partial<RequestInit<TExt, TReturn> & ILCExtraConfiguration> & {
     /**
@@ -287,7 +286,7 @@ interface UniqueRequestOption<TData> {
    * 请求方法
    * HTTP request mthod: GET POST ...
    */
-  method?: wx.RequestOption["method"];
+  method?: __wx__.RequestOption['method'];
 
   /**
    * 请求数据
@@ -303,7 +302,7 @@ interface UniqueRequestOption<TData> {
    */
   data?: TData;
 
-  // onProgress?: wx.DownloadTask['offProgressUpdate']
+  // onProgress?: __wx__.DownloadTask['offProgressUpdate']
 }
 
 /**
@@ -316,7 +315,7 @@ export type RequestOption<
   TData extends BaseData = BaseData,
   TParams = IBuilderParamsType,
   TExt extends {} = {},
-  TReturn = HttpResponse
+  TReturn = __wx__.HttpResponse | __my__.HttpResponse
 > = RequestConfig<TParams, TExt, TReturn> & UniqueRequestOption<TData>;
 /**
  * 发送一个请求的完整可配置信息
@@ -330,29 +329,3 @@ export interface FullRequestOption<
 > extends RequestInit<TExtend, TReturn>,
     ILCExtraConfiguration,
     UniqueRequestOption<TData> {}
-
-export interface HttpResponse extends IBuilderGeneralCallbackResult {
-  /** 开发者服务器返回的 HTTP Response Header
-   *
-   * 最低基础库： `1.2.0`
-   */
-  header: object;
-  /** 开发者服务器返回的 HTTP 状态码 */
-  statusCode: number;
-  /** 开发者服务器返回的数据 */
-  data: string | object | ArrayBuffer;
-  /**
-   * cookie信息2.4.2以上版本有
-   * 非正式支持
-   */
-  cookies?: (
-    | {
-        domain: string;
-        httpOnly: boolean;
-        name: string;
-        path: string;
-        value: string;
-      }
-    | string
-  )[];
-}

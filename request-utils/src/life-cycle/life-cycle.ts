@@ -1,4 +1,4 @@
-import { IBuilderGeneralCallbackResult } from '../builder';
+import { my, wx } from '../builder';
 import { Omit } from '../configuration';
 import {
   ILCBaseConfiguration,
@@ -15,7 +15,7 @@ import { Listeners } from './listeners';
  * 在结果中主人timeout 标记
  * @param res 原始结果
  */
-function timeoutMsg(res: IBuilderGeneralCallbackResult, time?: number) {
+function timeoutMsg(res: wx.HttpResponse, time?: number) {
   res.errMsg = res.errMsg
     ? res.errMsg.replace(':fail abort', `:fail timeout ${time}`)
     : `network:fail timeout ${time}`;
@@ -150,7 +150,7 @@ export abstract class LifeCycle<
         this._response<T>(res, options).then(resolve, reject);
       };
       // retry on fail
-      data.fail = (res: IBuilderGeneralCallbackResult): void => {
+      data.fail = (res: wx.HttpResponse): void => {
         if (timeoutHandle === 0) {
           timeoutMsg(res, options.timeout); // 触发自定义超时,注入timeout
         }
@@ -168,7 +168,7 @@ export abstract class LifeCycle<
                 this._send<T>(retryData, options).then(resolve, reject);
               },
               // 放弃重试
-              (reason: IBuilderGeneralCallbackResult) => {
+              (reason: wx.HttpResponse) => {
                 this._onFail(reason, options).then(reject, reject);
                 this._complete(reason, options);
               }
@@ -184,7 +184,7 @@ export abstract class LifeCycle<
         this._onFail(res, options).then(reject, reject);
       };
       data.complete = (
-        res: IBuilderGeneralCallbackResult & ExtraCompleteRes
+        res: wx.HttpResponse & ExtraCompleteRes
       ) => {
         if (timeoutHandle) {
           // 清理计时器
@@ -249,7 +249,7 @@ export abstract class LifeCycle<
           // tslint:disable-next-line: no-unsafe-any
           (result) => options.transformResponse!(result, options)
         )
-        .catch((reason: IBuilderGeneralCallbackResult) =>
+        .catch((reason: wx.HttpResponse) =>
           this._onFail(reason, options)
         );
     } else {
@@ -263,7 +263,7 @@ export abstract class LifeCycle<
    * @param options - all options
    */
   private _complete(
-    res: IBuilderGeneralCallbackResult & ExtraCompleteRes,
+    res: wx.HttpResponse & ExtraCompleteRes,
     options: TFullOptions
   ): void {
     if (options.timestamp) {
@@ -286,9 +286,9 @@ export abstract class LifeCycle<
    * @param options - 全部配置
    */
   private _onFail(
-    res: IBuilderGeneralCallbackResult,
+    res: wx.HttpResponse,
     options: TFullOptions
-  ): Promise<IBuilderGeneralCallbackResult> {
+  ): Promise<wx.HttpResponse> {
     this.Listeners.onRejected.forEach((f) => {
       f(res, options);
     });
@@ -302,7 +302,7 @@ export abstract class LifeCycle<
    */
   private _onComplete(
     res: Partial<ILCSuccessParam<TWxOptions>> &
-      IBuilderGeneralCallbackResult &
+    wx.HttpResponse &
       ExtraCompleteRes,
     options: TFullOptions
   ) {

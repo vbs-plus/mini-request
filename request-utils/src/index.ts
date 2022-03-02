@@ -1,9 +1,7 @@
 export type { Omit } from './configuration';
 
-export type {
-  IBuilderParamsType,
-  IBuilderGeneralCallbackResult
-} from './builder';
+export type { IBuilderParamsType } from './builder';
+export { wx, my } from './builder';
 export { default as Builder } from './builder';
 
 export type { ICancelTokenSource } from './cancel-token';

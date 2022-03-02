@@ -1,4 +1,71 @@
-import { IBuilderGeneralCallbackResult } from '../builder';
+import { my, wx } from '../builder';
+
+/**
+ * 发送前监听
+ */
+type OnSendListener<TFullOptions> = (options: Readonly<TFullOptions>) => any;
+/**
+ * 发送时监听
+ */
+type OnResponseListener<TResult, TFullOptions> = (
+  res: Readonly<TResult>,
+  options: Readonly<TFullOptions>
+) => any;
+/**
+ * 操作完成时
+ */
+type OnCompleteListener<TResult, TFullOptions> = (
+  res: Readonly<
+    Partial<TResult> & (WxCommonCompleteResult | MyCommonCompleteResult)
+  >,
+  options: Readonly<TFullOptions>
+) => any;
+/**
+ * 失败
+ */
+type OnRejectListener<TFullOptions> = (
+  res: Readonly<{ errMsg: string } | any>,
+  options: Readonly<TFullOptions>
+) => any;
+/**
+ * 操作取消时
+ */
+type OnAbortListener<TFullOptions> = (
+  reason: Readonly<any>,
+  options: Readonly<TFullOptions>
+) => any;
+interface WxCommonCompleteResult extends wx.HttpResponse {
+  /**
+   * 时间戳记录, 通过发送并且timestamp设置为true
+   */
+  time?: {
+    /**
+     *  发送时间戳
+     */
+    send: number;
+    /**
+     * 结束时间戳
+     */
+    response: number;
+  };
+}
+
+interface MyCommonCompleteResult extends my.HttpResponse {
+  /**
+   * 时间戳记录, 通过发送并且timestamp设置为true
+   */
+  time?: {
+    /**
+     *  发送时间戳
+     */
+    send: number;
+    /**
+     * 结束时间戳
+     */
+    response: number;
+  };
+}
+
 /**
  * 监听事件列表
  */
@@ -28,53 +95,4 @@ export class Listeners<TFullOptions, TResult> {
    * 回调函数参数为`取消原因`和`完整配置`(只读,不应修改)
    */
   public onAbort: OnAbortListener<TFullOptions>[] = [];
-}
-
-/**
- * 发送前监听
- */
-type OnSendListener<TFullOptions> = (options: Readonly<TFullOptions>) => any;
-/**
- * 发送时监听
- */
-type OnResponseListener<TResult, TFullOptions> = (
-  res: Readonly<TResult>,
-  options: Readonly<TFullOptions>
-) => any;
-/**
- * 操作完成时
- */
-type OnCompleteListener<TResult, TFullOptions> = (
-  res: Readonly<Partial<TResult> & CommonCompleteResult>,
-  options: Readonly<TFullOptions>
-) => any;
-/**
- * 失败
- */
-type OnRejectListener<TFullOptions> = (
-  res: Readonly<{ errMsg: string } | any>,
-  options: Readonly<TFullOptions>
-) => any;
-/**
- * 操作取消时
- */
-type OnAbortListener<TFullOptions> = (
-  reason: Readonly<any>,
-  options: Readonly<TFullOptions>
-) => any;
-
-interface CommonCompleteResult extends IBuilderGeneralCallbackResult {
-  /**
-   * 时间戳记录, 通过发送并且timestamp设置为true
-   */
-  time?: {
-    /**
-     *  发送时间戳
-     */
-    send: number;
-    /**
-     * 结束时间戳
-     */
-    response: number;
-  };
 }
